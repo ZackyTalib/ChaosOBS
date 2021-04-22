@@ -83,7 +83,8 @@ function createWindow() {
       enableRemoteModule: true
     },
     center: true,
-    resizable: false
+    resizable: false,
+    alwaysOnTop: true
   });
   mainWindow.loadURL(`file://${__dirname}/index.html`);
   //mainWindow.webContents.openDevTools();

@@ -1,7 +1,8 @@
 let currentComment = {
   pfp: "",
   name: "",
-  comment: ""
+  comment: "",
+  status: "normal"
 }
 
 let firebase = require("firebase");
@@ -88,6 +89,22 @@ app.get("/logo", (req, res) => {
   res.sendFile(path.join(__dirname, '/public', 'yt-logo.png'));
 });
 
+app.get("/modicon", (req, res) => {
+  res.sendFile(path.join(__dirname, '/public', 'mod-icon.PNG'));
+});
+
+app.get("/ownericon", (req, res) => {
+  res.sendFile(path.join(__dirname, '/public', 'crown.png'));
+});
+
+app.get("/membericon", (req, res) => {
+  res.sendFile(path.join(__dirname, '/public', 'memberIcon.png'));
+});
+
+app.get("/favicon.ico", (req, res) => {
+  res.sendFile(path.join(__dirname, '/public', 'icon.ico'));
+});
+
 app.get("/getComment", (req, res) => {
   res.json(currentComment);
 });
@@ -96,7 +113,9 @@ app.post("/setComment", (req, res) => {
   if(req.body.hide !== undefined){
       updateCurrentComment({visible: "false"});
   } else {
-      updateCurrentComment({name: req.body.name, comment: req.body.comment, pfp: req.body.pfp, visible: "true"});
+      let message = req.body;
+      message.visible = "true";
+      updateCurrentComment(message);
   }
   res.send("received");
 });
@@ -199,12 +218,179 @@ async function getLiveChat(liveChatId){
           milis = chatMessagesRequest.data.pollingIntervalMillis;
           
           let messageList = chatMessagesRequest.data.items;
+          //let messageList = [];
+
+          /*
+          // Normal Text Message
+          let normalTextMessage = {
+            "snippet": {
+              "hasDisplayContent": true,
+              "type": "textMessageEvent",
+              "displayMessage": "Hello world this is a test message!"
+            },
+            "authorDetails": {
+              "isChatSponsor": false,
+              "isChatModerator": false,
+              "isChatOwner": false,
+              "displayName": "Zacky VT",
+              "profileImageUrl": "https://yt3.ggpht.com/yti/ANoDKi42s1_r8lKyjNm3hdBq3rBZDn6FwnINks0tGJnM2Q=s88-c-k-c0x00ffffff-no-rj-mo"
+            }
+          };
+          messageList.push(normalTextMessage);
+
+          // Owner Text Message
+          let ownerTextMessage = {
+            "snippet": {
+              "hasDisplayContent": true,
+              "type": "textMessageEvent",
+              "displayMessage": "Hello world this is a test message!"
+            },
+            "authorDetails": {
+              "isChatSponsor": false,
+              "isChatModerator": false,
+              "isChatOwner": true,
+              "displayName": "Zacky VT",
+              "profileImageUrl": "https://yt3.ggpht.com/yti/ANoDKi42s1_r8lKyjNm3hdBq3rBZDn6FwnINks0tGJnM2Q=s88-c-k-c0x00ffffff-no-rj-mo"
+            }
+          };
+          messageList.push(ownerTextMessage);
+
+          // Sponsor Text Message
+          let sponsorTextMessage = {
+            "snippet": {
+              "hasDisplayContent": true,
+              "type": "textMessageEvent",
+              "displayMessage": "Hello world this is a test message!"
+            },
+            "authorDetails": {
+              "isChatSponsor": true,
+              "isChatModerator": false,
+              "isChatOwner": false,
+              "displayName": "Zacky VT",
+              "profileImageUrl": "https://yt3.ggpht.com/yti/ANoDKi42s1_r8lKyjNm3hdBq3rBZDn6FwnINks0tGJnM2Q=s88-c-k-c0x00ffffff-no-rj-mo"
+            }
+          };
+          messageList.push(sponsorTextMessage);
+
+          // Moderator Text Message
+          let moderatorTextMessage = {
+            "snippet": {
+              "hasDisplayContent": true,
+              "type": "textMessageEvent",
+              "displayMessage": "Hello world this is a test message!"
+            },
+            "authorDetails": {
+              "isChatSponsor": false,
+              "isChatModerator": true,
+              "isChatOwner": false,
+              "displayName": "Zacky VT",
+              "profileImageUrl": "https://yt3.ggpht.com/yti/ANoDKi42s1_r8lKyjNm3hdBq3rBZDn6FwnINks0tGJnM2Q=s88-c-k-c0x00ffffff-no-rj-mo"
+            }
+          };
+          messageList.push(moderatorTextMessage);
+
+          // Superchat Message
+          let superchatMessage = {
+            "snippet": {
+              "hasDisplayContent": true,
+              "type": "superChatEvent",
+              "displayMessage": "Hello world this is a test message!",
+              "superChatDetails": {
+                "userComment": "Hello world this is a test message!",
+                "amountDisplayString": "$199.99",
+                "tier": 7
+              }
+            },
+            "authorDetails": {
+              "isChatSponsor": false,
+              "isChatModerator": false,
+              "isChatOwner": false,
+              "displayName": "Zacky VT",
+              "profileImageUrl": "https://yt3.ggpht.com/yti/ANoDKi42s1_r8lKyjNm3hdBq3rBZDn6FwnINks0tGJnM2Q=s88-c-k-c0x00ffffff-no-rj-mo"
+            }
+          };
+          messageList.push(superchatMessage);
+
+          // Super Sticker Message
+          let superstickerMessage = {
+            "snippet": {
+              "hasDisplayContent": true,
+              "type": "superStickerEvent",
+              "displayMessage": "Hello world this is a test message!",
+              "superStickerDetails": {
+                "amountDisplayString": "$29.99",
+                "tier": 3
+              }
+            },
+            "authorDetails": {
+              "isChatSponsor": false,
+              "isChatModerator": false,
+              "isChatOwner": false,
+              "displayName": "Zacky VT",
+              "profileImageUrl": "https://yt3.ggpht.com/yti/ANoDKi42s1_r8lKyjNm3hdBq3rBZDn6FwnINks0tGJnM2Q=s88-c-k-c0x00ffffff-no-rj-mo"
+            }
+          };
+          messageList.push(superstickerMessage);
+          */
+
           for(i=0; i<messageList.length; i++){
-              messages.push({
-                  "name": messageList[i].authorDetails.displayName,
-                  "comment": messageList[i].snippet.displayMessage,
-                  "pfp": messageList[i].authorDetails.profileImageUrl
-              });
+              console.log(messageList[i]);
+              if(messageList[i].snippet.hasDisplayContent){
+                console.log("here1");
+                let status = "normal";
+
+                if(messageList[i].authorDetails.isChatSponsor){
+                  console.log("here11");
+                  //console.log(messageList[i].authorDetails.displayName);
+                  status = "sponsor";
+                }
+                if(messageList[i].authorDetails.isChatModerator){
+                  console.log("here13");
+                  status = "moderator";
+                }
+                if(messageList[i].authorDetails.isChatOwner){
+                  console.log("here14");
+                  status = "owner";
+                } 
+
+                console.log("here15");
+
+                if(messageList[i].snippet.type == "superChatEvent"){
+                  console.log("here16");
+                  messages.push({
+                    "name": messageList[i].authorDetails.displayName,
+                    "comment": messageList[i].snippet.superChatDetails.userComment,
+                    "pfp": messageList[i].authorDetails.profileImageUrl,
+                    "status": status,
+                    "amount": messageList[i].snippet.superChatDetails.amountDisplayString,
+                    "tier": messageList[i].snippet.superChatDetails.tier,
+                    "superchat": "true"
+                  });
+                }
+
+                if(messageList[i].snippet.type == "superStickerEvent"){
+                  console.log("here17");
+                  messages.push({
+                    "name": messageList[i].authorDetails.displayName,
+                    "pfp": messageList[i].authorDetails.profileImageUrl,
+                    "status": status,
+                    "amount": messageList[i].snippet.superStickerDetails.amountDisplayString,
+                    "tier": messageList[i].snippet.superStickerDetails.tier,
+                    "superchat": "true"
+                  });
+                }
+
+                if(messageList[i].snippet.type == "textMessageEvent"){
+                  console.log("here18");
+                  messages.push({
+                    "name": messageList[i].authorDetails.displayName,
+                    "comment": messageList[i].snippet.displayMessage,
+                    "pfp": messageList[i].authorDetails.profileImageUrl,
+                    "status": status,
+                    "superchat": "false"
+                  });
+                }
+              }
           }
           return {status: true};
       } catch(err) {
@@ -226,7 +412,7 @@ app.get("/setStream", (req, res) => {
   getBroadcast(req.query.id).then((success) => {
       if(success.status){
           res.send(liveChatId);
-      } else {res.send(success.message);}
+      } else {liveChatId = undefined; res.json({ "errors": [{"message": success.message}] });}
   });
 });
 
@@ -236,19 +422,19 @@ app.get("/getChat", (req, res) => {
           if(nsuccess.status) {
               res.json(messages);
           }
-          else {res.send(nsuccess.message);}
+          else {res.json({ "errors": [{"message": nsuccess.message}] });}
       });
   } else {
-      if(req.query.id == undefined){ res.send("No stream ID specified"); return; }
+      if(req.query.id == undefined){ res.json({ "errors": [{"message": "No valid stream ID specified"}] }); return; }
       getBroadcast(req.query.id).then((success) => {
           if(success.status){
               getLiveChat(liveChatId).then((nsuccess) => {
                   if(nsuccess.status) {
                       res.json(messages);
                   }
-                  else {liveChatId = undefined; res.send(nsuccess.message);}
+                  else {liveChatId = undefined; res.json({ "errors": [{"message": nsuccess.message}] });}
               });
-          } else {res.send(success.message);}
+          } else {res.json({ "errors": [{"message": success.message}] });}
       });
   }
 });

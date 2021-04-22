@@ -22,7 +22,7 @@ const msiCreator = new MSICreator({
     name: 'Chaos OBS',
     manufacturer: 'Zacky VT',
     appIconPath: path.resolve(__dirname,'./resources/icon.ico'),
-    version: '1.0.0',
+    version: '1.1.0',
 
     // Configure installer User Interface
     ui: {

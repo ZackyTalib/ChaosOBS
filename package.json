@@ -1,7 +1,7 @@
 {
   "name": "chaosobs",
   "description": "An app to display modals in the OBS window based on youtube live chat",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "main": "main.js",
   "author": "Zacky VT",
   "license": "GPL-3.0",

@@ -74,4 +74,76 @@
     background-color: #f44336;
     margin-left: auto;
   }
+
+  .ownerMessage {
+    border-radius: 4px;
+    background-color: #ffd600;
+    padding: 3px 5px;
+    color: black !important;
+    margin-right: 8px !important;
+    line-height: 2;
+  }
   
+  .moderatorMessage {
+    color: hsl(225deg 77% 65%) !important;
+    font-weight: 500 !important;
+    margin-right: 0 !important;
+  }
+
+  .modIcon {
+    height: 15px;
+    margin-right: 5px;
+  }
+
+  .superchat {
+    display: grid;
+    grid-template-columns: 10px 60px auto 90px 10px;
+    grid-template-rows: 10px 45px 10px auto;
+    margin-right: 10px;
+    margin-left: 10px;
+    border-radius: 10px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+  }
+  
+  .superchatPfp {
+    border-radius: 50%;
+    width: 45px;
+    grid-column-start: 2;
+    grid-row-start: 2;
+  }
+  
+  .superchatDetails {
+    grid-column-start: 3;
+    grid-row-start: 2;
+  }
+  
+  .superchatName {
+    font-family: 'Roboto', sans-serif;
+    font-size: 14;
+    line-height: 1.5;
+  }
+  
+  .superchatAmount {
+    font-family: 'Roboto', sans-serif;
+    font-size: 16;
+  }
+  
+  .superchatContent {
+    grid-row-start: 4;
+    grid-column-start: 1;
+    grid-column-end: 6;
+    border-radius: 0px 0px 10px 10px;
+  }
+  
+  .superchatText {
+    margin: 12px;
+    font-family: 'Roboto', sans-serif;
+    font-size: 12px;
+  }
+
+  .superchatButton {
+    grid-column-start: 4;
+    grid-row-start: 2;
+    margin: 10px;
+  }
