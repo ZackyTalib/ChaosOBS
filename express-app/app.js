@@ -90,7 +90,7 @@ app.get("/logo", (req, res) => {
 });
 
 app.get("/modicon", (req, res) => {
-  res.sendFile(path.join(__dirname, '/public', 'mod-icon.PNG'));
+  res.sendFile(path.join(__dirname, '/public', 'mod-icon.png'));
 });
 
 app.get("/ownericon", (req, res) => {
